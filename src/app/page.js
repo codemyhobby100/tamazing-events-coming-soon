@@ -1,100 +1,95 @@
-import Image from "next/image";
+"use client";
+import { useRef } from "react";
+import { FaInstagram } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const form = useRef();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    // Access environment variables
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+    const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+    const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+    emailjs
+      .sendForm(serviceId, templateId, form.current, publicKey)
+      .then(
+        (result) => {
+          Swal.fire({
+            icon: "success",
+            title: "Great!",
+            text: `Thank you for subscribing, we'll get back to you soon.`,
+            footer: '<a href="#">Go back</a>',
+          });
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+    e.target.reset();
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-black font-light">
+      {/* Header Section */}
+      <header className="w-full py-8 px-6 md:px-12">
+        <div className="text-2xl font-bold tracking-wide text-center">
+          Tamazing Events
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex-grow flex flex-col items-center justify-center text-center px-4 sm:px-8">
+        <h1 className="text-5xl sm:text-6xl font-serif font-extrabold text-black mb-6">
+          Coming Soon
+        </h1>
+        <p className="text-base sm:text-lg mb-8">
+          Bringing your dream events to life with elegance and creativity.
+        </p>
+
+        {/* Notify Me Form */}
+        <form
+          ref={form}
+          onSubmit={sendEmail}
+          className="flex flex-col sm:flex-row w-full max-w-sm sm:max-w-md"
+        >
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            className="flex-1 px-4 py-2 border border-gray-400 rounded-t-md sm:rounded-l-md sm:rounded-t-none focus:outline-none focus:ring-2 focus:ring-purple-400 mb-4 sm:mb-0"
+          />
+          <button
+            type="submit"
+            className="px-6 py-2 bg-black text-white rounded-b-md sm:rounded-r-md sm:rounded-b-none hover:bg-gray-800 transition"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
+            Notify Me
+          </button>
+        </form>
+        <p className="text-sm italic mt-4">
+          We'll let you know when we launch!
+        </p>
+      </main>
+
+      {/* Footer Section */}
+      <footer className="w-full py-6 bg-gray-100">
+        <div className="flex justify-between items-center px-6 sm:px-12">
+          <p className="text-sm text-gray-600">
+            &copy; {new Date().getFullYear()} Tamazing Events. All rights
+            reserved.
+          </p>
           <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="https://www.instagram.com/tamazingevents/"
+            className="text-gray-500 hover:text-black transition"
+            aria-label="Instagram"
           >
-            Read our docs
+            <FaInstagram className="w-8 h-8 text-gray-600 hover:text-black transition" />
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
       </footer>
     </div>
   );

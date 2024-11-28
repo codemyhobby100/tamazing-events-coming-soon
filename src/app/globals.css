@@ -2,20 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Define custom theme colors */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #ffffff; /* Light mode background */
+  --foreground: #171717; /* Light mode text */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0a0a; /* Dark mode background */
+    --foreground: #ededed; /* Dark mode text */
   }
 }
 
+/* Base styles for the entire body */
 body {
+  @apply bg-white text-black flex justify-center items-center min-h-screen font-sans;
+  background-color: var(--background);
   color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Centered container for the content */
+.container {
+  @apply text-center p-4;
+}
+
+/* Styling for the title */
+.title {
+  @apply text-4xl font-bold mb-4;
+  background: linear-gradient(to right, #8a2be2, #ff69b4, #ff4500);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Styling for the tagline */
+.tagline {
+  @apply text-lg italic mb-6;
+}
+
+/* Styling for the timer (if used) */
+.timer {
+  @apply text-2xl font-mono mb-6;
+}
+
+/* Input field styles */
+.input {
+  @apply bg-gray-200 text-black p-2 rounded-md mr-2;
+}
+
+/* Button styles */
+.button {
+  @apply bg-black text-white p-2 rounded-md hover:bg-gray-800 transition;
+}
+
+/* Social links */
+.socials a {
+  @apply text-sm underline mx-2;
 }
